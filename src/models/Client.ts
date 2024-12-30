@@ -34,6 +34,13 @@ const clientSchema = new Schema<ClientModel>(
       minLength: 3,
       maxLength: 100,
     },
+    phone: {
+      type: String,
+      trim: true,
+      match: /^[0-9+\s]+$/,
+      required: true,
+      maxlength: 20,
+    },
   },
   {
     versionKey: false,

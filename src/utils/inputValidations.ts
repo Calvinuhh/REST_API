@@ -33,3 +33,15 @@ export const validateLengthFromTo = (
   if (value.length < min || value.length > max)
     throw Error(`Field ${input} must be between ${min} and ${max} characters`);
 };
+
+export const validatePhone = (phone: string) => {
+  const regex = /^[0-9+\s]+$/;
+
+  if (!regex.test(phone.toString())) throw Error("Invalid phone number");
+};
+
+
+export const validatePhoneMaxLength = (phone: string) => { 
+
+  
+}

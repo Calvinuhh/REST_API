@@ -4,4 +4,5 @@ export default interface ClientModel {
   lastname: string;
   email: string;
   company: string;
+  phone: string;
 }

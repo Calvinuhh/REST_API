@@ -3,7 +3,7 @@ import Client from "../models/Client";
 import { validateDuplicateEmail } from "../utils/validateDuplicateEmail";
 
 export const createClient = async (data: CreateClientDTO) => {
-  const { name, lastname, email, company } = data;
+  const { name, lastname, email, company, phone } = data;
 
   await validateDuplicateEmail(email);
 
@@ -12,6 +12,7 @@ export const createClient = async (data: CreateClientDTO) => {
     lastname,
     email,
     company,
+    phone,
   });
 
   return newClient;

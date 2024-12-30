@@ -8,13 +8,14 @@ import {
 
 export const createClientController = async (req: Request, res: Response) => {
   try {
-    const { name, lastname, email, company }: CreateClientDTO = req.body;
+    const { name, lastname, email, company, phone }: CreateClientDTO = req.body;
 
     const newClient = await createClient({
       name,
       lastname,
       email,
       company,
+      phone,
     });
 
     if (newClient) res.status(201).json(newClient);
