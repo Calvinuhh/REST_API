@@ -31,7 +31,7 @@ const clientSchema = new Schema<ClientModel>(
       type: String,
       trim: true,
       match: /^[a-zA-ZñÑ0-9 ]+$/,
-      minLength: 3,
+      minLength: 1,
       maxLength: 100,
     },
     phone: {
