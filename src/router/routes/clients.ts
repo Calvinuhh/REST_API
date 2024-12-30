@@ -6,7 +6,7 @@ import {
   getClientsController,
   updateClientController,
 } from "../../controllers/clientsController";
-import { newClientValidations } from "../../middlewares/newClientValidation";
+import { newClientValidations } from "../../middlewares/newClientMiddleware";
 import { validateObjectIdMiddleware } from "../../middlewares/objectIdValidation";
 import { patchClientValidations } from "../../middlewares/updateMiddlewares";
 

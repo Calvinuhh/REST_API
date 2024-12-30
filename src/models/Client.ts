@@ -47,4 +47,4 @@ const clientSchema = new Schema<ClientModel>(
   }
 );
 
-export default model<ClientModel>("client", clientSchema);
+export default model<ClientModel>("clients", clientSchema);

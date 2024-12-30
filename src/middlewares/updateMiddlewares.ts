@@ -3,7 +3,6 @@ import { Types } from "mongoose";
 
 import {
   validateCompany,
-  validateEmail,
   validateLengthFromTo,
   validatePhone,
   validatePhoneMaxLength,
