@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { CreateOrderDTO } from "../interfaces/DTOs/orderDTOs";
 import { Types } from "mongoose";
+import { validateOnlyNumbers } from "../utils/inputValidations";
 
 export const newOrderValidations = (
   req: Request,
@@ -22,7 +23,8 @@ export const newOrderValidations = (
       throw Error("Product must be a valid ObjectId");
 
     for (const { amount } of products) {
-      if (typeof amount !== "number") throw Error("Amount must be a number");
+      if (!amount) throw Error("Amount is required");
+      validateOnlyNumbers(amount, "amount");
     }
 
     next();

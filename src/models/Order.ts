@@ -7,6 +7,7 @@ const orderSchema = new Schema<OrderModel>(
     client: {
       type: Schema.Types.ObjectId,
       ref: "client",
+      required: true,
     },
     products: [
       {

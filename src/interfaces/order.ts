@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-type ProductOrder = {
+type Product = {
   _id: Types.ObjectId;
   product: Types.ObjectId;
   amount: number;
@@ -9,6 +9,6 @@ type ProductOrder = {
 export default interface OrderModel {
   _id: Types.ObjectId;
   client: Types.ObjectId;
-  products: ProductOrder[];
+  products: Product[];
   total: number;
 }
