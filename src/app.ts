@@ -2,7 +2,6 @@ import express, { json, urlencoded } from "express";
 import router from "./router/router";
 import cors from "cors";
 
-process.loadEnvFile();
 const { CLIENT_URL } = process.env;
 
 const server = express();
