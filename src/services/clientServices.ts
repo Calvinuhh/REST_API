@@ -43,8 +43,6 @@ export const deleteClientById = async (_id: string) => {
   return `${client.name} ${client.lastname} deleted`;
 };
 
-
-
 export const updateClient = async (data: UpdateClient) => {
   const { _id, name, lastname, company, phone } = data;
 

@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 import { Request, Response } from "express";
 import { CreateClientDTO } from "../interfaces/DTOs/clientDTOs";
 import {
@@ -56,7 +58,7 @@ export const updateClientController = async (req: Request, res: Response) => {
     const { name, lastname, company, phone }: CreateClientDTO = req.body;
 
     const newClient = await updateClient({
-      _id: id,
+      _id: new Types.ObjectId(id),
       name,
       lastname,
       company,

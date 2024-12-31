@@ -1,5 +1,7 @@
+import { Types } from "mongoose";
+
 export default interface ClientModel {
-  _id: string;
+  _id: Types.ObjectId;
   name: string;
   lastname: string;
   email: string;

@@ -7,6 +7,8 @@ import {
   updateProduct,
 } from "../services/productsServices";
 
+import { Types } from "mongoose";
+
 export const createProductController = async (req: Request, res: Response) => {
   try {
     const { name, price } = req.body;
@@ -55,7 +57,7 @@ export const updateProductController = async (req: Request, res: Response) => {
   const imageName = req.file?.filename;
 
   const newProduct = await updateProduct({
-    _id: id,
+    _id: new Types.ObjectId(id),
     name,
     price,
     image: imageName,
