@@ -4,9 +4,11 @@ import { Types } from "mongoose";
 import {
   validateCompany,
   validateLengthFromTo,
+  validateOnlyNumbers,
   validatePhone,
   validatePhoneMaxLength,
   validateStrings,
+  validateStringsAndDot,
 } from "../utils/inputValidations";
 
 export const patchClientValidations = async (
@@ -42,6 +44,37 @@ export const patchClientValidations = async (
     if (company) {
       validateCompany(company);
       validateLengthFromTo(company, "company", 1, 100);
+    }
+
+    next();
+  } catch (error) {
+    const err = error as Error;
+    res.status(400).json(err.message);
+  }
+};
+
+export const patchProductValidations = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const { name, price } = req.body;
+
+    if (!Types.ObjectId.isValid(id)) throw Error("Invalid ID");
+
+    for (const key in req.body) {
+      if (!req.body[key]) throw Error(`Field ${key} is empty`);
+    }
+
+    if (name) {
+      validateStringsAndDot(name, "name");
+      validateLengthFromTo(name, "name", 2, 100);
+    }
+
+    if (price) {
+      validateOnlyNumbers(price, "price");
     }
 
     next();

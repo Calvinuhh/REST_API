@@ -45,3 +45,15 @@ export const validatePhoneMaxLength = (phone: string) => {
   if (phone.length > 20)
     throw Error("Phone number must be less than 20 characters");
 };
+
+export const validateOnlyNumbers = (param: number, input: string) => {
+  if (!/^[0-9]+$/.test(String(param)))
+    throw Error(`Field ${input} must contain only numbers`);
+};
+
+export const validateStringsAndDot = (param: string, input: string) => {
+  if (!/^[a-zA-ZñÑ\s.]+$/.test(param))
+    throw Error(
+      `Field ${input} must contain only letters, no numbers or special characters`
+    );
+};

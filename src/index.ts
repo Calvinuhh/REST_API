@@ -7,7 +7,9 @@ const { PORT } = process.env;
 dbConnect()
   .then(() => {
     server.listen(PORT, () => {
-      console.log(`Servidor escuchando en el puerto ${PORT}, node version: 22.12`);
+      console.log(
+        `Servidor escuchando en el puerto ${PORT}, node version: 22.12`
+      );
     });
   })
   .catch((error) => {
