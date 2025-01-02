@@ -7,36 +7,38 @@ import {
   updateProductController,
 } from "../../controllers/productsController";
 import { newProductValidations } from "../../middlewares/newProductMiddleware";
-import { uploadFileMiddleware } from "../../middlewares/uploadFileMiddleware";
 import { validateObjectIdMiddleware } from "../../middlewares/objectIdValidation";
 import { patchProductValidations } from "../../middlewares/updateMiddlewares";
+import { authorization } from "../../middlewares/authorization";
 
 const productsRouter: Router = Router();
 
 productsRouter.post(
   "/",
-  uploadFileMiddleware,
+  authorization,
   newProductValidations,
   createProductController
 );
 
-productsRouter.get("/", getProductsController);
+productsRouter.get("/", authorization, getProductsController);
 
 productsRouter.get(
   "/:id",
+  authorization,
   validateObjectIdMiddleware,
   getProductByIdController
 );
 
 productsRouter.patch(
   "/:id",
-  uploadFileMiddleware,
+  authorization,
   patchProductValidations,
   updateProductController
 );
 
 productsRouter.delete(
   "/:id",
+  authorization,
   validateObjectIdMiddleware,
   deleteProductController
 );

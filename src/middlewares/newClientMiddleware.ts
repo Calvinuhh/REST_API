@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import {
-  validateCompany,
   validateEmail,
   validateLengthFromTo,
   validateOnlyLetters,
@@ -14,7 +13,7 @@ export const newClientValidations = (
   next: NextFunction
 ) => {
   try {
-    const { name, lastname, email, company, phone } = req.body;
+    const { name, lastname, email, phone } = req.body;
 
     for (const key in req.body) {
       if (!req.body[key]) throw new Error(`Field ${key} is empty`);
@@ -33,11 +32,6 @@ export const newClientValidations = (
 
     validatePhone(phone);
     validatePhoneMaxLength(phone);
-
-    if (company) {
-      validateCompany(company);
-      validateLengthFromTo(company, "company", 1, 100);
-    }
 
     next();
   } catch (error) {

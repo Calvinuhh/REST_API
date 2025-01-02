@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
 
 import {
-  validateCompany,
   validateLengthFromTo,
   validateOnlyNumbers,
   validatePhone,
@@ -18,7 +17,7 @@ export const patchClientValidations = async (
 ) => {
   try {
     const { id } = req.params;
-    const { name, lastname, company, phone } = req.body;
+    const { name, lastname, phone } = req.body;
 
     if (!Types.ObjectId.isValid(id)) throw Error("Invalid ID");
 
@@ -39,11 +38,6 @@ export const patchClientValidations = async (
     if (phone) {
       validatePhone(phone);
       validatePhoneMaxLength(phone);
-    }
-
-    if (company) {
-      validateCompany(company);
-      validateLengthFromTo(company, "company", 1, 100);
     }
 
     next();

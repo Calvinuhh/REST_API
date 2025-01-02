@@ -9,15 +9,33 @@ import {
 import { newClientValidations } from "../../middlewares/newClientMiddleware";
 import { validateObjectIdMiddleware } from "../../middlewares/objectIdValidation";
 import { patchClientValidations } from "../../middlewares/updateMiddlewares";
+import { authorization } from "../../middlewares/authorization";
 
 const clientsRouter: Router = Router();
 
-clientsRouter.post("/", newClientValidations, createClientController);
-clientsRouter.get("/", getClientsController);
-clientsRouter.get("/:id", validateObjectIdMiddleware, getClientByIdController);
-clientsRouter.patch("/:id", patchClientValidations, updateClientController);
+clientsRouter.post(
+  "/",
+  authorization,
+  newClientValidations,
+  createClientController
+);
+clientsRouter.get("/", authorization, getClientsController);
+
+clientsRouter.get(
+  "/:id",
+  authorization,
+  validateObjectIdMiddleware,
+  getClientByIdController
+);
+clientsRouter.patch(
+  "/:id",
+  authorization,
+  patchClientValidations,
+  updateClientController
+);
 clientsRouter.delete(
   "/:id",
+  authorization,
   validateObjectIdMiddleware,
   deleteClientByIdController
 );

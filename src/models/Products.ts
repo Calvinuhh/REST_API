@@ -15,9 +15,10 @@ const productSchema = new Schema(
       trim: true,
       required: true,
     },
-    image: {
-      type: String,
-      trim: true,
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
     },
   },
   { versionKey: false }

@@ -1,57 +1,66 @@
-import { CreateProductDTO } from "../interfaces/DTOs/productDTOs";
-import ProductModel from "../interfaces/product";
+import {
+  CreateProductDTO,
+  UpdateProductDTO,
+} from "../interfaces/DTOs/productDTOs";
 import Product from "../models/Products";
+import { Types } from "mongoose";
 
 export const createProduct = async (product: CreateProductDTO) => {
-  const { name, price, image } = product;
+  const { name, price, userId } = product;
 
   const newProduct = await Product.create({
     name,
-    image,
     price,
+    userId,
   });
 
   return newProduct;
 };
 
-export const getAllProducts = async () => {
-  const products = await Product.find();
+export const getAllProducts = async (userId: Types.ObjectId) => {
+  const products = await Product.find({ userId });
 
   if (products.length === 0) throw Error("No Products found");
 
   return products;
 };
 
-export const getProductById = async (_id: string) => {
-  const product = await Product.findById(_id);
+export const getProductById = async (_id: string, userId: Types.ObjectId) => {
+  const product = await Product.findOne({ _id, userId });
 
   if (!product) throw Error("Product not found");
 
   return product;
 };
 
-export const updateProduct = async (data: ProductModel) => {
-  const { _id, name, price, image } = data;
+export const updateProduct = async (data: UpdateProductDTO) => {
+  const { _id, name, price, userId } = data;
 
   const newData: Partial<CreateProductDTO> = {};
 
   if (name) newData.name = name;
   if (price) newData.price = price;
-  if (image) newData.image = image;
 
   if (Object.keys(newData).length === 0) throw Error("No data to update");
 
-  const newProduct = await Product.findByIdAndUpdate(_id, newData, {
-    new: true,
-  }).select(`${name && "name"}  ${price && "price"} ${image && "image"}`);
+  const newProduct = await Product.findOneAndUpdate(
+    {
+      _id,
+      userId,
+    },
+    newData,
+    {
+      new: true,
+    }
+  ).select(`${name && "name"}  ${price && "price"} }`);
 
   if (!newProduct) throw Error("Product not found");
 
   return newProduct;
 };
 
-export const deleteProduct = async (_id: string) => {
-  const product = await Product.findByIdAndDelete(_id);
+export const deleteProduct = async (_id: string, userId: Types.ObjectId) => {
+  const product = await Product.findOneAndDelete({ _id, userId });
 
   if (!product) throw Error("Product not found");
 
