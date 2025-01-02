@@ -13,9 +13,13 @@ export const createOrderController = async (req: Request, res: Response) => {
   try {
     const { client, products }: CreateOrderDTO = req.body;
 
-    const newOrder = await createOrder({ client, products });
+    const newOrder = await createOrder({
+      client,
+      products,
+      userId: req.userId,
+    });
 
-    res.status(201).json(newOrder);
+    if (newOrder) res.status(201).json("Order created successfully");
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
@@ -27,8 +31,8 @@ export const getOrdersController = async (req: Request, res: Response) => {
     const { names } = req.query;
 
     names === "true"
-      ? res.status(200).json(await getOrdersByName())
-      : res.status(200).json(await getAllorders());
+      ? res.status(200).json(await getOrdersByName(req.userId))
+      : res.status(200).json(await getAllorders(req.userId));
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
@@ -41,8 +45,8 @@ export const getOrderByIdController = async (req: Request, res: Response) => {
     const { names } = req.query;
 
     names === "true"
-      ? res.status(200).json(await getOrderByIdByName(id))
-      : res.status(200).json(await getOrderById(id));
+      ? res.status(200).json(await getOrderByIdByName(id, req.userId))
+      : res.status(200).json(await getOrderById(id, req.userId));
   } catch (error) {
     const err = error as Error;
     res.status(404).json(err.message);
@@ -56,7 +60,7 @@ export const deleteOrderByIdController = async (
   try {
     const { id } = req.params;
 
-    res.status(200).json(await deleteOrderById(id));
+    res.status(200).json(await deleteOrderById(id, req.userId));
   } catch (error) {
     const err = error as Error;
     res.status(404).json(err.message);

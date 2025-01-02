@@ -1,4 +1,4 @@
-import { model, Schema, Types } from "mongoose";
+import { model, Schema } from "mongoose";
 import OrderModel, { ProductModel } from "../interfaces/order";
 import Product from "../models/Products";
 
@@ -26,7 +26,11 @@ const orderSchema = new Schema<OrderModel>(
     },
     products: [productSchema],
     total: Number,
-    userId: Types.ObjectId,
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
   },
   { versionKey: false }
 );
