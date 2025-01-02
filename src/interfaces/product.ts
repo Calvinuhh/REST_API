@@ -4,5 +4,5 @@ export default interface ProductModel {
   _id: Types.ObjectId;
   name: string;
   price: number;
-  image?: string;
+  userId: Types.ObjectId;
 }

@@ -8,19 +8,22 @@ import {
 } from "../services/productsServices";
 
 import { Types } from "mongoose";
+import {
+  CreateProductDTO,
+  UpdateProductDTO,
+} from "../interfaces/DTOs/productDTOs";
 
 export const createProductController = async (req: Request, res: Response) => {
   try {
-    const { name, price } = req.body;
-    const imageName = req.file?.filename;
+    const { name, price }: CreateProductDTO = req.body;
 
     const newProduct = await createProduct({
       name,
       price,
-      image: imageName,
+      userId: req.userId,
     });
 
-    res.status(201).json(newProduct);
+    if (newProduct) res.status(201).json("Product created successfully");
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
@@ -29,7 +32,7 @@ export const createProductController = async (req: Request, res: Response) => {
 
 export const getProductsController = async (req: Request, res: Response) => {
   try {
-    const products = await getAllProducts();
+    const products = await getAllProducts(req.userId);
 
     res.status(200).json(products);
   } catch (error) {
@@ -42,7 +45,7 @@ export const getProductByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const product = await getProductById(id);
+    const product = await getProductById(id, req.userId);
 
     res.status(200).json(product);
   } catch (error) {
@@ -52,19 +55,18 @@ export const getProductByIdController = async (req: Request, res: Response) => {
 };
 
 export const updateProductController = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { name, price } = req.body;
-  const imageName = req.file?.filename;
-
-  const newProduct = await updateProduct({
-    _id: new Types.ObjectId(id),
-    name,
-    price,
-    image: imageName,
-  });
-
-  res.status(200).json(newProduct);
   try {
+    const { id } = req.params;
+    const { name, price }: UpdateProductDTO = req.body;
+
+    const newProduct = await updateProduct({
+      _id: new Types.ObjectId(id),
+      name,
+      price,
+      userId: req.userId,
+    });
+
+    res.status(200).json(newProduct);
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
@@ -75,7 +77,7 @@ export const deleteProductController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    await deleteProduct(id);
+    await deleteProduct(id, req.userId);
 
     res.status(200).json("product deleted");
   } catch (error) {

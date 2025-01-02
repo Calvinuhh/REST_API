@@ -24,25 +24,12 @@ export const createOrder = async (data: CreateOrderDTO) => {
 
 export const getAllorders = async () => {
   const orders = await Order.find();
-  const odersMaped = orders.map(({ _id, client, products, total }) => {
-    return {
-      _id,
-      client,
-      products: products.map(({ product, amount }) => {
-        return {
-          product,
-          amount,
-        };
-      }),
-      total,
-    };
-  });
 
-  if (odersMaped.length === 0) {
+  if (orders.length === 0) {
     throw new Error("No orders found");
   }
 
-  return odersMaped;
+  return orders;
 };
 
 export const getOrdersByName = async () => {
@@ -53,44 +40,20 @@ export const getOrdersByName = async () => {
     })
     .populate({
       path: "products.product",
-      select: "name image -_id",
+      select: "name -_id",
     });
 
-  if (orders) {
-    const ordersMaped = orders.map(({ _id, client, products, total }) => {
-      return {
-        _id,
-        client,
-        products: products.map(({ product, amount }) => {
-          return {
-            product,
-            amount,
-          };
-        }),
-        total,
-      };
-    });
+  if (orders.length === 0) throw Error("No orders found");
 
-    return ordersMaped;
-  } else throw Error("No orders found");
+  return orders;
 };
 
 export const getOrderById = async (id: string) => {
   const order = await Order.findOne({ _id: id });
 
-  if (order)
-    return {
-      _id: order._id,
-      client: order.client,
-      products: order.products.map(({ product, amount }) => {
-        return {
-          product,
-          amount,
-        };
-      }),
-      total: order.total,
-    };
-  else throw Error("Order not found");
+  if (!order) throw Error("Order not found");
+
+  return order;
 };
 
 export const getOrderByIdByName = async (id: string) => {
@@ -101,22 +64,12 @@ export const getOrderByIdByName = async (id: string) => {
     })
     .populate({
       path: "products.product",
-      select: "name image -_id",
+      select: "name -_id",
     });
 
-  if (order) {
-    return {
-      _id: order._id,
-      client: order.client,
-      products: order.products.map(({ product, amount }) => {
-        return {
-          product,
-          amount,
-        };
-      }),
-      total: order.total,
-    };
-  } else throw Error("Order not found");
+  if (!order) throw Error("Order not found");
+
+  return order;
 };
 
 export const deleteOrderById = async (id: string) => {

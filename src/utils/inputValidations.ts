@@ -1,13 +1,14 @@
-import { OnlyLetters } from "../interfaces/DTOs/clientDTOs";
-
 export const validateEmail = (email: string) => {
   if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email))
     throw Error("Invalid email");
 };
 
-export const validateOnlyLetters = (params: OnlyLetters) => {
+export const validateOnlyLetters = (params: {
+  name: string;
+  lastname: string;
+}) => {
   for (const key in params) {
-    if (!/^[a-zA-ZñÑ\s]+$/.test(params[key as keyof OnlyLetters]))
+    if (!/^[a-zA-ZñÑ\s]+$/.test(params[key as keyof typeof params]))
       throw Error(
         `Field ${key} must contain only letters, no numbers or special characters`
       );
@@ -19,11 +20,6 @@ export const validateStrings = (param: string, input: string) => {
     throw Error(
       `Field ${input} must contain only letters, no numbers or special characters`
     );
-};
-
-export const validateCompany = (company: string) => {
-  if (!/^[a-zA-ZñÑ0-9 ]+$/.test(company))
-    throw Error("Field company must contain only letters and numbers");
 };
 
 export const validateLengthFromTo = (
@@ -55,5 +51,19 @@ export const validateStringsAndDot = (param: string, input: string) => {
   if (!/^[a-zA-ZñÑ\s.]+$/.test(param))
     throw Error(
       `Field ${input} must contain only letters, no numbers or special characters`
+    );
+};
+
+export const securePassword = (
+  param: string,
+  input: string,
+  minLength: number
+) => {
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{6,}$/;
+
+  if (!regex.test(param))
+    throw Error(
+      `${input} must be at least ${minLength} characters long, upper and lower case, one number and one special character.`
     );
 };

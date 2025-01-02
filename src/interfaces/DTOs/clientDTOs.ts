@@ -1,7 +1,8 @@
 import ClientModel from "../client";
+import { Types } from "mongoose";
 
 export type CreateClientDTO = Omit<ClientModel, "_id">;
 
-export type OnlyLetters = Pick<ClientModel, "name" | "lastname">;
-
-export type UpdateClient = Omit<ClientModel, "email">;
+export interface UpdateClientDTO extends Omit<ClientModel, "email"> {
+  userId: Types.ObjectId;
+}

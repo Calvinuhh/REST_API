@@ -1,6 +1,21 @@
 import { model, Schema, Types } from "mongoose";
-import OrderModel from "../interfaces/order";
+import OrderModel, { ProductModel } from "../interfaces/order";
 import Product from "../models/Products";
+
+const productSchema = new Schema<ProductModel>(
+  {
+    product: {
+      type: Schema.Types.ObjectId,
+      ref: "product",
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
+  },
+  { _id: false }
+);
 
 const orderSchema = new Schema<OrderModel>(
   {
@@ -9,20 +24,9 @@ const orderSchema = new Schema<OrderModel>(
       ref: "client",
       required: true,
     },
-    products: [
-      {
-        product: {
-          type: Types.ObjectId,
-          ref: "product",
-          required: true,
-        },
-        amount: {
-          type: Number,
-          required: true,
-        },
-      },
-    ],
+    products: [productSchema],
     total: Number,
+    userId: Types.ObjectId,
   },
   { versionKey: false }
 );

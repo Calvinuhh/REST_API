@@ -1,7 +1,10 @@
 import { Types } from "mongoose";
 
 import { Request, Response } from "express";
-import { CreateClientDTO } from "../interfaces/DTOs/clientDTOs";
+import {
+  CreateClientDTO,
+  UpdateClientDTO,
+} from "../interfaces/DTOs/clientDTOs";
 import {
   createClient,
   getAllClients,
@@ -12,17 +15,17 @@ import {
 
 export const createClientController = async (req: Request, res: Response) => {
   try {
-    const { name, lastname, email, company, phone }: CreateClientDTO = req.body;
+    const { name, lastname, email, phone }: CreateClientDTO = req.body;
 
     const newClient = await createClient({
       name,
       lastname,
       email,
-      company,
       phone,
+      userId: req.userId,
     });
 
-    if (newClient) res.status(201).json(newClient);
+    if (newClient) res.status(201).json("Client created successfully");
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
@@ -31,7 +34,7 @@ export const createClientController = async (req: Request, res: Response) => {
 
 export const getClientsController = async (req: Request, res: Response) => {
   try {
-    const clients = await getAllClients();
+    const clients = await getAllClients(req.userId);
 
     res.status(200).json(clients);
   } catch (error) {
@@ -44,7 +47,7 @@ export const getClientByIdController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const client = await getClientById(id);
+    const client = await getClientById(id, req.userId);
     res.status(200).json(client);
   } catch (error) {
     const err = error as Error;
@@ -55,14 +58,14 @@ export const getClientByIdController = async (req: Request, res: Response) => {
 export const updateClientController = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name, lastname, company, phone }: CreateClientDTO = req.body;
+    const { name, lastname, phone }: UpdateClientDTO = req.body;
 
     const newClient = await updateClient({
       _id: new Types.ObjectId(id),
       name,
       lastname,
-      company,
       phone,
+      userId: req.userId,
     });
 
     res.status(200).json(newClient);
@@ -79,7 +82,7 @@ export const deleteClientByIdController = async (
   try {
     const { id } = req.params;
 
-    const client = await deleteClientById(id);
+    const client = await deleteClientById(id, req.userId);
 
     res.status(200).json(client);
   } catch (error) {
