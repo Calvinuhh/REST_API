@@ -62,7 +62,7 @@ export const auth = async (token: string) => {
 };
 
 export const getUserById = async (_id: Types.ObjectId) => {
-  const user = await User.findById(_id).select("-password -token");
+  const user = await User.findById(_id).select("-password -token -confirmed");
 
   if (!user) throw Error("User not found");
 
