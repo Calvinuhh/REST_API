@@ -3,8 +3,9 @@ import { CreateUserDTO, LoginUserDTO } from "../interfaces/DTOs/userDTOs";
 import User from "../models/User";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
+import { Types } from "mongoose";
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, CLIENT_URL } = process.env;
 
 export const register = async (data: CreateUserDTO) => {
   const { email, password } = data;
@@ -38,7 +39,7 @@ export const login = async (data: LoginUserDTO) => {
 
   const payload = { id: user._id.toString() };
   const jwt = sign(payload, JWT_SECRET as string, {
-    expiresIn: "2h",
+    expiresIn: "5h",
   });
 
   return jwt;
@@ -56,11 +57,11 @@ export const auth = async (token: string) => {
 
   await user.save();
 
-  return "User confirmed";
+  return `User confirmed, you can login now on: ${CLIENT_URL}/login`;
 };
 
-export const getUserById = async (id: string) => {
-  const user = await User.findById(id);
+export const getUserById = async (_id: Types.ObjectId) => {
+  const user = await User.findById(_id).select("-password -token -confirmed");
 
   if (!user) throw Error("User not found");
 

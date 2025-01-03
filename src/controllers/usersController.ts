@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { register, auth, login } from "../services/usersServices";
+import { register, auth, login, getUserById } from "../services/usersServices";
+import { Types } from "mongoose";
 
 export const registerController = async (req: Request, res: Response) => {
   try {
@@ -38,6 +39,17 @@ export const authController = async (req: Request, res: Response) => {
     const { token } = req.params;
 
     res.status(200).json(await auth(token));
+  } catch (error) {
+    const err = error as Error;
+    res.status(400).json(err.message);
+  }
+};
+
+export const searchUserController = async (req: Request, res: Response) => {
+  try {
+    const user = await getUserById(req.userId);
+
+    res.status(200).json(user);
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
