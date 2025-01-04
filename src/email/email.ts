@@ -19,14 +19,18 @@ const transport = nodemailer.createTransport({
   },
 });
 
-export const enviarEmail = async (email: string, token: string) => {
+export const enviarEmail = async (
+  name: string,
+  email: string,
+  token: string
+) => {
   await transport.sendMail({
     from: "REST API",
     to: email,
     subject: "Confirma tu cuenta",
 
     html: `
-            <h2>haz click en el siguiente enlace para confirmar tu cuenta: </h2>
+            <h2>Hola ${name}! haz click en el siguiente enlace para confirmar tu cuenta: </h2>
             <a href="${SERVER_URL}/auth/${token}">Confirmar Cuenta</a>
         `,
   });

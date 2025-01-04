@@ -4,23 +4,25 @@ import User from "../models/User";
 import { hash, compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import { Types } from "mongoose";
+import formatName from "../utils/formatNames";
 
 process.loadEnvFile();
 const { JWT_SECRET, CLIENT_URL } = process.env;
 
 export const register = async (data: CreateUserDTO) => {
-  const { email, password } = data;
+  const { name, email, password } = data;
 
   const userExists = await User.findOne({ email });
   if (userExists) throw Error("User already exists");
 
   const newUser = await User.create({
+    name: formatName(name),
     email,
     password: await hash(password, 10),
     token: Math.random().toString(36).substring(2) + Date.now().toString(36),
   });
 
-  if (newUser) enviarEmail(newUser.email, newUser.token);
+  if (newUser) enviarEmail(newUser.name, newUser.email, newUser.token);
 
   return newUser;
 };
@@ -62,7 +64,9 @@ export const auth = async (token: string) => {
 };
 
 export const getUserById = async (_id: Types.ObjectId) => {
-  const user = await User.findById(_id).select("-password -token -confirmed");
+  const user = await User.findById(_id).select(
+    "-password -token -confirmed -email"
+  );
 
   if (!user) throw Error("User not found");
 

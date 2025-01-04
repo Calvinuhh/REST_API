@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
 import { register, auth, login, getUserById } from "../services/usersServices";
-import { Types } from "mongoose";
 
 export const registerController = async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    const newUser = await register({ email, password });
+    const newUser = await register({ name, email, password });
 
     if (newUser)
       res
         .status(201)
-        .json("User created, check your email to confirm your account");
+        .json(
+          "Your account was created, check your email to confirm your account"
+        );
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
