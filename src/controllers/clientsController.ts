@@ -25,7 +25,10 @@ export const createClientController = async (req: Request, res: Response) => {
       userId: req.userId,
     });
 
-    if (newClient) res.status(201).json("Client created successfully");
+    if (newClient)
+      res
+        .status(201)
+        .json(`Client ${name} ${lastname} has been added successfully`);
   } catch (error) {
     const err = error as Error;
     res.status(400).json(err.message);
@@ -39,7 +42,7 @@ export const getClientsController = async (req: Request, res: Response) => {
     res.status(200).json(clients);
   } catch (error) {
     const err = error as Error;
-    res.status(400).json(err.message);
+    res.status(404).json(err.message);
   }
 };
 

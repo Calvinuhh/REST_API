@@ -27,11 +27,11 @@ export const enviarEmail = async (
   await transport.sendMail({
     from: "REST API",
     to: email,
-    subject: "Confirma tu cuenta",
+    subject: "Confirm your account",
 
     html: `
-            <h2>Hola ${name}! haz click en el siguiente enlace para confirmar tu cuenta: </h2>
-            <a href="${SERVER_URL}/auth/${token}">Confirmar Cuenta</a>
+            <h2>Hi ${name}! click on the next link to confirm your account: </h2>
+            <a href="${SERVER_URL}/auth/${token}">Confirm Account</a>
         `,
   });
 };
