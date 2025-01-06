@@ -52,7 +52,7 @@ export const updateProduct = async (data: UpdateProductDTO) => {
     {
       new: true,
     }
-  ).select(`${name && "name"}  ${price && "price"} }`);
+  );
 
   if (!newProduct) throw Error("Product not found");
 

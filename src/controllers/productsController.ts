@@ -66,7 +66,7 @@ export const updateProductController = async (req: Request, res: Response) => {
       userId: req.userId,
     });
 
-    res.status(200).json(newProduct);
+    if (newProduct) res.status(200).json("Product updated successfully");
   } catch (error) {
     const err = error as Error;
     res.status(404).json(err.message);

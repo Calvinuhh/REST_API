@@ -71,7 +71,7 @@ export const updateClientController = async (req: Request, res: Response) => {
       userId: req.userId,
     });
 
-    res.status(200).json(newClient);
+    if (newClient) res.status(200).json("Client has been updated successfully");
   } catch (error) {
     const err = error as Error;
     res.status(404).json(err.message);

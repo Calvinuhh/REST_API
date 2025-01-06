@@ -52,7 +52,7 @@ export const updateClient = async (data: UpdateClientDTO) => {
 
   const newClient = await Client.findOneAndUpdate({ _id, userId }, newData, {
     new: true,
-  }).select(`${name && "name"} ${lastname && "lastname"} ${phone && "phone"}`);
+  });
 
   if (!newClient) throw Error("Client not found");
 
