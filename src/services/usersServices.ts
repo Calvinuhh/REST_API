@@ -7,7 +7,7 @@ import { Types } from "mongoose";
 import formatName from "../utils/formatNames";
 
 process.loadEnvFile();
-const { JWT_SECRET, CLIENT_URL } = process.env;
+const { JWT_SECRET } = process.env;
 
 export const register = async (data: CreateUserDTO) => {
   const { name, email, password } = data;
