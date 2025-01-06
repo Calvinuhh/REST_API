@@ -37,7 +37,7 @@ export const getProductsController = async (req: Request, res: Response) => {
     res.status(200).json(products);
   } catch (error) {
     const err = error as Error;
-    res.status(400).json(err.message);
+    res.status(404).json(err.message);
   }
 };
 
@@ -50,7 +50,7 @@ export const getProductByIdController = async (req: Request, res: Response) => {
     res.status(200).json(product);
   } catch (error) {
     const err = error as Error;
-    res.status(400).json(err.message);
+    res.status(404).json(err.message);
   }
 };
 
@@ -66,10 +66,10 @@ export const updateProductController = async (req: Request, res: Response) => {
       userId: req.userId,
     });
 
-    res.status(200).json(newProduct);
+    if (newProduct) res.status(200).json("Product updated successfully");
   } catch (error) {
     const err = error as Error;
-    res.status(400).json(err.message);
+    res.status(404).json(err.message);
   }
 };
 
@@ -82,6 +82,6 @@ export const deleteProductController = async (req: Request, res: Response) => {
     res.status(200).json("product deleted");
   } catch (error) {
     const err = error as Error;
-    res.status(400).json(err.message);
+    res.status(404).json(err.message);
   }
 };

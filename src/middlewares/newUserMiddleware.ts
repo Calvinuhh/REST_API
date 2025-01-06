@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { securePassword, validateEmail } from "../utils/inputValidations";
+import {
+  securePassword,
+  validateEmail,
+  validateLengthFromTo,
+  validateStrings,
+} from "../utils/inputValidations";
 
 export const newUserValidations = (
   req: Request,
@@ -7,12 +12,17 @@ export const newUserValidations = (
   next: NextFunction
 ) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
     for (const key in req.body) {
       if (!req.body[key]) throw Error(`Field ${key} is empty`);
     }
-    if (!email || !password) throw Error("Email and password are required");
+    if (!name) throw Error("Email is required");
+    if (!email) throw Error("name is required");
+    if (!password) throw Error("password is required");
+
+    validateStrings(name, "name");
+    validateLengthFromTo(name, "name", 2, 100);
 
     validateEmail(email);
     securePassword(password, "password", 6);

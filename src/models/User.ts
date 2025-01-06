@@ -3,6 +3,14 @@ import UserModel from "../interfaces/user";
 
 const UserSchema = new Schema<UserModel>(
   {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      match: /^[a-zA-ZñÑ\s]+$/,
+      minLength: 2,
+      maxLength: 100,
+    },
     email: {
       type: String,
       required: true,

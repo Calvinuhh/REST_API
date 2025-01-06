@@ -35,7 +35,7 @@ export const getOrdersController = async (req: Request, res: Response) => {
       : res.status(200).json(await getAllorders(req.userId));
   } catch (error) {
     const err = error as Error;
-    res.status(400).json(err.message);
+    res.status(404).json(err.message);
   }
 };
 
