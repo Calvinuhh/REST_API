@@ -60,7 +60,7 @@ export const auth = async (token: string) => {
 
   await user.save();
 
-  return `User confirmed, you can login now on: ${CLIENT_URL}/login`;
+  return "User confirmed, you can login now!";
 };
 
 export const getUserById = async (_id: Types.ObjectId) => {
