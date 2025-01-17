@@ -48,9 +48,9 @@ export const validateOnlyNumbers = (param: number, input: string) => {
 };
 
 export const validateStringsAndDot = (param: string, input: string) => {
-  if (!/^[a-zA-ZñÑ\s.]+$/.test(param))
+  if (!/^[a-zA-ZñÑ\s.\d]+$/.test(param))
     throw Error(
-      `Field ${input} must contain only letters, no numbers or special characters`
+      `Field ${input} must contain only letters and numbers, no special characters`
     );
 };
 
