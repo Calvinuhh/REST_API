@@ -26,6 +26,10 @@ const orderSchema = new Schema<OrderModel>(
     },
     products: [productSchema],
     total: Number,
+    date: {
+      type: Date,
+      default: Date.now,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "user",

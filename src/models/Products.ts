@@ -15,6 +15,10 @@ const productSchema = new Schema(
       trim: true,
       required: true,
     },
+    active: {
+      type: Boolean,
+      default: true,
+    },
     userId: {
       type: Schema.Types.ObjectId,
       ref: "user",

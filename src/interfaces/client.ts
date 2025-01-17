@@ -6,5 +6,6 @@ export default interface ClientModel {
   lastname: string;
   email: string;
   phone: string;
+  active: boolean;
   userId: Types.ObjectId;
 }
