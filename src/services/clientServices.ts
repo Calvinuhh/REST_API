@@ -24,7 +24,7 @@ export const createClient = async (data: CreateClientDTO) => {
 };
 
 export const getAllClients = async (userId: Types.ObjectId) => {
-  const clients = await Client.find({ userId }).select("-userId");
+  const clients = await Client.find({ userId, active: true }).select("-userId");
 
   if (clients.length === 0) throw Error("No Clients found");
 
@@ -32,7 +32,9 @@ export const getAllClients = async (userId: Types.ObjectId) => {
 };
 
 export const getClientById = async (_id: string, userId: Types.ObjectId) => {
-  const client = await Client.findOne({ _id, userId }).select("-userId");
+  const client = await Client.findOne({ _id, userId, active: true }).select(
+    "-userId"
+  );
 
   if (!client) throw Error("Client not found");
 
@@ -50,9 +52,13 @@ export const updateClient = async (data: UpdateClientDTO) => {
 
   if (Object.keys(newData).length === 0) throw Error("No data to update");
 
-  const newClient = await Client.findOneAndUpdate({ _id, userId }, newData, {
-    new: true,
-  });
+  const newClient = await Client.findOneAndUpdate(
+    { _id, userId, active: true },
+    newData,
+    {
+      new: true,
+    }
+  );
 
   if (!newClient) throw Error("Client not found");
 
@@ -60,7 +66,10 @@ export const updateClient = async (data: UpdateClientDTO) => {
 };
 
 export const deleteClientById = async (_id: string, userId: Types.ObjectId) => {
-  const client = await Client.findOneAndDelete({ _id, userId });
+  const client = await Client.findOneAndUpdate(
+    { _id, userId, active: true },
+    { active: false, email: null }
+  );
 
   if (!client) throw Error("Client not found");
 

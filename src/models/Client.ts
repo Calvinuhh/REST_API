@@ -25,7 +25,6 @@ const clientSchema = new Schema<ClientModel>(
       lowercase: true,
       trim: true,
       match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-      unique: true,
     },
     phone: {
       type: String,
@@ -33,6 +32,10 @@ const clientSchema = new Schema<ClientModel>(
       match: /^[0-9+\s]+$/,
       required: true,
       maxlength: 20,
+    },
+    active: {
+      type: Boolean,
+      default: true,
     },
     userId: {
       type: Schema.Types.ObjectId,

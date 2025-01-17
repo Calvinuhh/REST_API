@@ -18,7 +18,7 @@ export const createProduct = async (product: CreateProductDTO) => {
 };
 
 export const getAllProducts = async (userId: Types.ObjectId) => {
-  const products = await Product.find({ userId });
+  const products = await Product.find({ userId, active: true });
 
   if (products.length === 0) throw Error("No Products found");
 
@@ -26,7 +26,7 @@ export const getAllProducts = async (userId: Types.ObjectId) => {
 };
 
 export const getProductById = async (_id: string, userId: Types.ObjectId) => {
-  const product = await Product.findOne({ _id, userId });
+  const product = await Product.findOne({ _id, userId, active: true });
 
   if (!product) throw Error("Product not found");
 
@@ -47,6 +47,7 @@ export const updateProduct = async (data: UpdateProductDTO) => {
     {
       _id,
       userId,
+      active: true,
     },
     newData,
     {
@@ -60,9 +61,14 @@ export const updateProduct = async (data: UpdateProductDTO) => {
 };
 
 export const deleteProduct = async (_id: string, userId: Types.ObjectId) => {
-  const product = await Product.findOneAndDelete({ _id, userId });
+  const product = await Product.findOneAndUpdate(
+    { _id, userId, active: true },
+    {
+      active: false,
+    }
+  );
 
   if (!product) throw Error("Product not found");
 
-  return product;
+  return `Product ${product.name} deleted`;
 };

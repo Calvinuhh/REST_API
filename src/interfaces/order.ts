@@ -10,5 +10,6 @@ export default interface OrderModel {
   client: Types.ObjectId;
   products: Array<ProductModel>;
   total: number;
+  date: Date;
   userId: Types.ObjectId;
 }
