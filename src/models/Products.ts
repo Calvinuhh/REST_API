@@ -7,7 +7,7 @@ const productSchema = new Schema(
       trim: true,
       minLength: 2,
       maxLength: 100,
-      match: /^[a-zA-ZñÑ\s.]+$/,
+      match: /^[a-zA-ZñÑ\s.\d]+$/,
       required: true,
     },
     price: {
