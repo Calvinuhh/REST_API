@@ -1,12 +1,8 @@
 import nodemailer from "nodemailer";
 
-const { MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASSWORD, SERVER_URL } =
+const { MAIL_HOST, MAIL_PORT, MAIL_USER, MAIL_PASSWORD, SERVER_URL, EMAIL } =
   process.env as {
-    MAIL_HOST: string;
-    MAIL_PORT: string;
-    MAIL_USER: string;
-    MAIL_PASSWORD: string;
-    SERVER_URL: string;
+    [key: string]: string;
   };
 
 const transport = nodemailer.createTransport({
@@ -24,7 +20,7 @@ export const enviarEmail = async (
   token: string
 ) => {
   await transport.sendMail({
-    from: "REST API",
+    from: `${EMAIL} - REST API`,
     to: email,
     subject: "Confirm your account",
 

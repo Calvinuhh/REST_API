@@ -6,7 +6,7 @@ import { sign } from "jsonwebtoken";
 import { Types } from "mongoose";
 import formatName from "../utils/formatNames";
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env as { JWT_SECRET: string };
 
 export const register = async (data: CreateUserDTO) => {
   const { name, email, password } = data;
@@ -40,7 +40,7 @@ export const login = async (data: LoginUserDTO) => {
   if (!checkPassword) throw Error("Invalid password");
 
   const payload = { id: user._id.toString() };
-  const jwt = sign(payload, JWT_SECRET as string, {
+  const jwt = sign(payload, JWT_SECRET, {
     expiresIn: "1h",
   });
 
