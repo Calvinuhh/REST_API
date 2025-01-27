@@ -41,7 +41,7 @@ export const login = async (data: LoginUserDTO) => {
 
   const payload = { id: user._id.toString() };
   const jwt = sign(payload, JWT_SECRET, {
-    expiresIn: "1h",
+    expiresIn: "2m",
   });
 
   return jwt;
