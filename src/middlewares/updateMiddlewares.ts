@@ -16,10 +16,7 @@ export const patchClientValidations = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
     const { name, lastname, phone } = req.body;
-
-    if (!Types.ObjectId.isValid(id)) throw Error("Invalid ID");
 
     for (const key in req.body) {
       if (!req.body[key]) throw Error(`Field ${key} is empty`);
@@ -53,10 +50,7 @@ export const patchProductValidations = async (
   next: NextFunction
 ) => {
   try {
-    const { id } = req.params;
     const { name, price } = req.body;
-
-    if (!Types.ObjectId.isValid(id)) throw Error("Invalid ID");
 
     for (const key in req.body) {
       if (!req.body[key]) throw Error(`Field ${key} is empty`);

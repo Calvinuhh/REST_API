@@ -13,34 +13,13 @@ import { authorization } from "../../middlewares/authorization";
 
 const productsRouter: Router = Router();
 
-productsRouter.post(
-  "/",
-  authorization,
-  newProductValidations,
-  createProductController
-);
+productsRouter.use(authorization);
+productsRouter.param("id", validateObjectIdMiddleware);
 
-productsRouter.get("/", authorization, getProductsController);
-
-productsRouter.get(
-  "/:id",
-  authorization,
-  validateObjectIdMiddleware,
-  getProductByIdController
-);
-
-productsRouter.patch(
-  "/:id",
-  authorization,
-  patchProductValidations,
-  updateProductController
-);
-
-productsRouter.delete(
-  "/:id",
-  authorization,
-  validateObjectIdMiddleware,
-  deleteProductController
-);
+productsRouter.post("/", newProductValidations, createProductController);
+productsRouter.get("/", getProductsController);
+productsRouter.get("/:id", getProductByIdController);
+productsRouter.patch("/:id", patchProductValidations, updateProductController);
+productsRouter.delete("/:id", deleteProductController);
 
 export default productsRouter;
