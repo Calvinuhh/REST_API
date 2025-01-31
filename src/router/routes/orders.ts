@@ -11,27 +11,12 @@ import { authorization } from "../../middlewares/authorization";
 
 const orderRouter: Router = Router();
 
-orderRouter.post(
-  "/",
-  authorization,
-  newOrderValidations,
-  createOrderController
-);
+orderRouter.use(authorization);
+orderRouter.param("id", validateObjectIdMiddleware);
 
-orderRouter.get("/", authorization, getOrdersController);
-
-orderRouter.get(
-  "/:id",
-  authorization,
-  validateObjectIdMiddleware,
-  getOrderByIdController
-);
-
-orderRouter.delete(
-  "/:id",
-  authorization,
-  validateObjectIdMiddleware,
-  deleteOrderByIdController
-);
+orderRouter.post("/", newOrderValidations, createOrderController);
+orderRouter.get("/", getOrdersController);
+orderRouter.get("/:id", getOrderByIdController);
+orderRouter.delete("/:id", deleteOrderByIdController);
 
 export default orderRouter;

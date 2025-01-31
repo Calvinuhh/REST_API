@@ -13,31 +13,13 @@ import { authorization } from "../../middlewares/authorization";
 
 const clientsRouter: Router = Router();
 
-clientsRouter.post(
-  "/",
-  authorization,
-  newClientValidations,
-  createClientController
-);
-clientsRouter.get("/", authorization, getClientsController);
+clientsRouter.use(authorization);
+clientsRouter.param("id", validateObjectIdMiddleware);
 
-clientsRouter.get(
-  "/:id",
-  authorization,
-  validateObjectIdMiddleware,
-  getClientByIdController
-);
-clientsRouter.patch(
-  "/:id",
-  authorization,
-  patchClientValidations,
-  updateClientController
-);
-clientsRouter.delete(
-  "/:id",
-  authorization,
-  validateObjectIdMiddleware,
-  deleteClientByIdController
-);
+clientsRouter.post("/", newClientValidations, createClientController);
+clientsRouter.get("/", getClientsController);
+clientsRouter.get("/:id", getClientByIdController);
+clientsRouter.patch("/:id", patchClientValidations, updateClientController);
+clientsRouter.delete("/:id", deleteClientByIdController);
 
 export default clientsRouter;
